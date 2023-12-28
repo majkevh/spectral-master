@@ -17,14 +17,11 @@ def create_grid(pd, resolution, global_max):
     Returns:
     - grid (numpy.ndarray): A grid representation of the input persistence diagrams.
     """
-    Xmax, Ymax = global_max
-    x_scale = (resolution[0] - 1) / Xmax
-    y_scale = (resolution[1] - 1) / Ymax
-    grid = np.zeros((resolution[0] , resolution[1]))
-    births, deaths = np.array(pd).T  
-    x_indices = np.floor(births * x_scale).astype(int)
-    y_indices = np.floor(deaths * y_scale).astype(int)
-    np.add.at(grid, (x_indices, y_indices), 1)
+    grid = np.zeros(resolution)
+    for birth, death in pd:
+        x = int((birth / global_max[0]) * (resolution[0] - 1))
+        y = int((death / global_max[1]) * (resolution[1] - 1))
+        grid[x, y] += 1
     return grid
 
 def wavelet_functional(pd, resolution, global_max, wave):
