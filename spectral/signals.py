@@ -219,5 +219,5 @@ class Signals:
         if not self.fitted:
             raise RuntimeError("Transform called before fit. Please fit the model first.")
 
-        return (self.concatenated_vector, self.concatenated_energy) if self.energy else (self.concatenated_vector, None)
+        return (self.concatenated_vector, self.concatenated_energy) if self.energy else (self.concatenated_vector)
 
