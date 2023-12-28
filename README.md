@@ -23,8 +23,5 @@ The repository is systematically organized to facilitate easy navigation and com
 - `LICENSE`: Specifies the licensing terms for the use and distribution of the repository's content.
 
 ### Data Folder 
-- `data/`: Contains all datasets used in the notebooks. 
-
-#### Graph Data Sources
- For conducting experiments involving graph data, I utilizez datasets and functions sourced from the [*PersLay*](https://github.com/MathieuCarriere/perslay) and [*ATOL*](https://github.com/martinroyer/atol) repositories.
+- `data/`: Contains all datasets used in the notebooks. For conducting experiments involving graph data, I utilized datasets and functions sourced from the [*PersLay*](https://github.com/MathieuCarriere/perslay) and [*ATOL*](https://github.com/martinroyer/atol) repositories.
 
