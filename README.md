@@ -25,3 +25,7 @@ The repository is systematically organized to facilitate easy navigation and com
 ### Data Folder 
 - `data/`: Contains all datasets used in the notebooks. For conducting experiments involving graph data, I utilized datasets and functions sourced from the [*PersLay*](https://github.com/MathieuCarriere/perslay) and [*ATOL*](https://github.com/martinroyer/atol) repositories.
 
+
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
