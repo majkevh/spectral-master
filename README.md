@@ -2,7 +2,7 @@
 **Author**: Michael Etienne Van Huffel
 
 ## Description
-Implementation of Persistence Signals Vectorization for Persistence Measures.
+Implementation of Persistence Signals Vectorization for Persistence Measures based on the paper https://arxiv.org/abs/2312.17093.
 
 ## Overview
 This repository contains the official implementation of Persistence Signals Vectorization, a method for embedding Persistence Measures in vetor spaces. It showcases the integration of such vectorization technique in the context of graph classification and dynamical particles classification.

@@ -19,8 +19,8 @@ def create_grid(pd, resolution, global_max):
     """
     grid = np.zeros(resolution)
     for birth, death in pd:
-        x = int((birth / global_max[0]) * (resolution[0] - 1))
-        y = int((death / global_max[1]) * (resolution[1] - 1))
+        x = min(int((birth / global_max[0]) * (resolution[0] - 1)), (resolution[0] - 1))
+        y = min(int((death / global_max[1]) * (resolution[1] - 1)), (resolution[1] - 1))
         grid[x, y] += 1
     return grid
 
@@ -62,6 +62,8 @@ def fourier_functional(pd, resolution, global_max):
     total_energy = np.sum(np.square(magnitude))
     return np.concatenate([magnitude, phase]), total_energy
 
+def identity(pd, resolution, global_max):
+    return create_grid(pd, resolution, global_max).flatten(), None
 
 def gabor_functional(pd, resolution, global_max, sigma, lambd, gamma, theta, psi):
     """
@@ -158,7 +160,10 @@ class Signals:
                              lambd=self.lambd,
                              gamma=self.gamma, 
                              theta=self.theta, 
-                             psi=self.psi)
+                             psi=self.psi),
+            "ID": partial(identity, 
+                             resolution=self.resolution, 
+                             global_max=self.global_max)
         }
         self.embedding = function_mappings.get(self.function, None)
         if not self.embedding:
