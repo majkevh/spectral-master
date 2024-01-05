@@ -1,30 +1,34 @@
-# Spectral Persistence: Persistence Signals
+# LITE: A Stable Framework for Lattice-Integrated Embedding of Topological Descriptors
 **Author**: Michael Etienne Van Huffel
 
 ## Description
-Implementation of Persistence Signals Vectorization for Persistence Measures based on the paper https://arxiv.org/abs/2312.17093.
+Implementation of Lattice Integrated Topological Embedding (LITE) for Persistence Diagrams based on the paper https://arxiv.org/abs/2312.17093.
 
 ## Overview
-This repository contains the official implementation of Persistence Signals Vectorization, a method for embedding Persistence Measures in vetor spaces. It showcases the integration of such vectorization technique in the context of graph classification and dynamical particles classification.
+This repository contains the official implementation of LITE, a method for embedding Persistence Diagrams into elements of vetor spaces. It showcases the integration of such vectorization technique in the context of graph classification and dynamical particles classification.
 
 ## Repository Structure
 The repository is systematically organized to facilitate easy navigation and comprehensive understanding of each component.
 
 ### Jupyter Notebooks
-- `graph-classy.ipynb`: Demo that demonstrates the application of Persistence Signals Vectorization in graph classification.
-- `orbit-classy.ipynb`: Demo that demonstrates the application of Persistence Signals Vectorization in dynamical particles classification.
+- `graph-classy.ipynb`: Demo that demonstrates the application of LITE Vectorization in graph classification.
+- `orbit-classy.ipynb`: Demo that demonstrates the application of LITE Vectorization in dynamical particles classification.
 
 ### Python Scripts
-- `spectral/signals.py`: Core implementation of the Persistence Signals Vectorization algorithm.
-- `spectral/utils.py`: Provides essential utility functions for data processing and analysis within the notebooks.
+- `lite/lite.py`: Core implementation of the LITE Vectorization algorithm.
+- `lite/utils.py`: Provides essential utility functions for data processing and analysis within the notebooks.
 
+## Installation
+To reproduce the analysis environment, you will need Python 3.6 or later. Please install the required Python packages listed in `requirements.txt`.
 
-### Documentation and Licensing
-- `LICENSE`: Specifies the licensing terms for the use and distribution of the repository's content.
+```bash
+git clone git@github.com:majkevh/spectral-master.git
+cd spectral-master
+pip install -r requirements.txt
+```
 
 ### Data Folder 
 - `data/`: Contains all datasets used in the notebooks. For conducting experiments involving graph data, I utilized datasets and functions sourced from the [*PersLay*](https://github.com/MathieuCarriere/perslay) and [*ATOL*](https://github.com/martinroyer/atol) repositories.
-
 
 
 ## License

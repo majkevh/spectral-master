@@ -90,9 +90,9 @@ def gabor_functional(pd, resolution, global_max, sigma, lambd, gamma, theta, psi
 
 
 
-class Signals:
+class LITE:
     """
-    A class for transforming persistence diagrams using various functional representations such as Fourier, Wavelet, and Gabor.
+    A class for transforming persistence diagrams using various functional representations such as identity, Fourier, Wavelet, and Gabor.
     
     Attributes:
         resolution (Tuple[int, int]): The resolution of the grid.
@@ -108,7 +108,7 @@ class Signals:
 
     def __init__(self, **kwargs: Any) -> None:
         """
-        Initializes the Signals class with default or specified parameters.
+        Initializes the LITE class with default or specified parameters.
 
         Parameters:
             **kwargs: Variable keyword arguments for class properties.
@@ -183,7 +183,7 @@ class Signals:
             raise ValueError("No embedding function set. Please specify a valid function.")
         return self.embedding(pd)[0]
 
-    def fit(self, pds: List[np.ndarray]) -> 'Signals':
+    def fit(self, pds: List[np.ndarray]) -> 'LITE':
         """
         Fits the model to a set of persistence diagrams.
 
@@ -191,7 +191,7 @@ class Signals:
             pds (List[np.ndarray]): A list of persistence diagrams.
 
         Returns:
-            Signals: The fitted Signals object.
+            LITE: The fitted LITE object.
         """
         if not self.embedding:
             raise ValueError("No embedding function set. Please specify a valid function.")

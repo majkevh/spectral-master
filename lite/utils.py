@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import warnings
 import logging
-from spectral.signals import Signals
+from lite.lite import LITE
 from sklearn.metrics import accuracy_score
 from typing import Callable, Any, Dict, List, Tuple
 import shutil
@@ -43,14 +43,14 @@ def load_and_prepare_data(graph_folder: str, graph_dtypes: List[str], filtration
 
 def extract_features_from_graphs(graph_folder: str, 
                                     all_diagrams: Dict, 
-                                    signals_objects: Dict[Tuple[str, str], Any]) -> List[Dict]:
+                                    lite_objects: Dict[Tuple[str, str], Any]) -> List[Dict]:
     """
-    Extracts Persistence Signals features from graphs stored in a specified folder. 
+    Extracts Persistence LITE features from graphs stored in a specified folder. 
 
     Parameters:
     graph_folder (str): Path to the folder containing graph files.
     all_diagrams (Dict): Dictionary of persistence diagrams.
-    signals_objects (Dict[Tuple[str, str], Any]): Dictionary of Persistence Signals objects for feature extraction.
+    lite_objects (Dict[Tuple[str, str], Any]): Dictionary of LITE objects for feature extraction.
     verbose (bool, optional): If True, prints information about the process. Defaults to False.
 
     Returns:
@@ -68,8 +68,8 @@ def extract_features_from_graphs(graph_folder: str,
             label = int(name[name.index("lb")+1])
             gid = int(name[name.index("gid") + 1]) - 1
 
-            for (data_type, filt), signal_obj in signals_objects.items():
-                diag_features = signal_obj(all_diagrams[(data_type, filt, gid)])
+            for (data_type, filt), lite_obj in lite_objects.items():
+                diag_features = lite_obj(all_diagrams[(data_type, filt, gid)])
                 for idx_center, value in enumerate(diag_features):
                     features.append({
                         "index": gid, 
@@ -420,10 +420,6 @@ def load_csv_to_array(file_name: str) -> np.ndarray:
             if not data_array.any():
                 data_array = np.array([[0, 0]])
             
-            if w:
-                for warning in w:
-                    logging.warning(str(warning.message))
-
         return data_array
 
     except FileNotFoundError:
@@ -446,21 +442,21 @@ def evaluate_model(dataset, alg, grid, waw, graph_folder, all_diags, array_indic
     """
     precisions = []
     for _ in range(repeat):
-        objs = create_signal_objects(graph_dtypes, filtrations, dataset, alg, waw, grid)
+        objs = create_lite_objects(graph_dtypes, filtrations, dataset, alg, waw, grid)
         np.random.shuffle(array_indices)
         test_scores = perform_cross_validation(objs, graph_folder, all_diags, array_indices, length, sampling, graph_dtypes, filtrations, verbose)
         precisions.append(np.mean(test_scores))
 
     print(f"DATA: {dataset}, ALG: {alg}, GRID: {grid}, MEAN: {np.mean(precisions)}, MAX: {np.max(precisions)}, STD: {np.std(precisions)}, WAVE: {waw}")
 
-def create_signal_objects(graph_dtypes, filtrations, dataset, alg, waw, grid):
+def create_lite_objects(graph_dtypes, filtrations, dataset, alg, waw, grid):
     """
-    Create signal objects based on the provided parameters.
+    Create lite objects based on the provided parameters.
 
-    Other parameters: Parameters needed for signal object creation.
+    Other parameters: Parameters needed for lite object creation.
 
     Returns:
-    Dictionary of signal objects.
+    Dictionary of LITE objects.
     """
     maxima = {"PROTEINS":(0.9093726873397827, 0.9093728065490723),
         "DHFR":(0.9076708555221558, 0.9088095426559448),
@@ -470,7 +466,7 @@ def create_signal_objects(graph_dtypes, filtrations, dataset, alg, waw, grid):
         "IMDB-MULTI": (0.9063586592674255, 0.9063833355903625)}
     objs = {}
     for dtype, filt in product(graph_dtypes, filtrations):
-        objs[(dtype, filt)] = Signals(global_max=maxima[dataset], function=alg, wave=waw, resolution=grid)
+        objs[(dtype, filt)] = LITE(global_max=maxima[dataset], function=alg, wave=waw, resolution=grid)
     return objs
 
 def perform_cross_validation(objs, graph_folder, all_diags, array_indices, length, sampling, graph_dtypes, filtrations, verbose):
@@ -490,7 +486,7 @@ def perform_cross_validation(objs, graph_folder, all_diags, array_indices, lengt
         for dtype, filt in product(graph_dtypes, filtrations):
             objs[(dtype, filt)].fit([all_diags[(dtype, filt, gid)] for gid in train_indices])
 
-        feats = pd.DataFrame(extract_features_from_graphs(graph_folder=graph_folder, all_diagrams=all_diags, signals_objects=objs),
+        feats = pd.DataFrame(extract_features_from_graphs(graph_folder=graph_folder, all_diagrams=all_diags, lite_objects=objs),
                              columns=["index", "type", "center", "value", "label"])
 
         fitted_learner = fit_and_evaluate_model(learner=RandomForestClassifier(n_estimators=100),
