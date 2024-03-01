@@ -1,4 +1,4 @@
-# LITE: A Stable Framework for Lattice-Integrated Embedding of Topological Descriptors
+# LITE: A Framework for Lattice-Integrated Embedding of Topological Descriptors
 **Author**: Michael Etienne Van Huffel
 
 ## Description
